@@ -1,11 +1,17 @@
-version: '3.8'
 services:
   web:
-    build: .
+    build:
+      context: .
+      target: builder
+    container_name: dev-test-landing
     ports:
       - "3000:3000"
     volumes:
       - .:/app
       - /app/node_modules
+      - /app/.next
     environment:
       - NODE_ENV=development
+      - NEXT_TELEMETRY_DISABLED=1
+    command: npm run dev
+    restart: unless-stopped
